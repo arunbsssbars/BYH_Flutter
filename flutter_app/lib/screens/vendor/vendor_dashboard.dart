@@ -1,7 +1,39 @@
 import 'package:flutter/material.dart';
-import 'vendor_products.dart';
-import 'vendor_orders.dart';
+import 'vendor_products_screen.dart';
+import 'vendor_services_screen.dart';
 
-class VendorDashboard extends StatelessWidget { const VendorDashboard({super.key}); @override Widget build(BuildContext context){
-  return Scaffold(appBar: AppBar(title: const Text('Vendor Dashboard')), body: Padding(padding: const EdgeInsets.all(16), child: Column(children:[ ElevatedButton(child: const Text('Products'), onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>const VendorProducts()))), const SizedBox(height:8), ElevatedButton(child: const Text('Orders'), onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>const VendorOrders()))), ]),),);
-} }
+class VendorDashboard extends StatelessWidget {
+  final String vendorId;
+  const VendorDashboard({super.key, required this.vendorId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Vendor Dashboard")),
+      body: Column(
+        children: [
+          ListTile(
+            title: const Text("Manage Products"),
+            trailing: const Icon(Icons.shopping_bag),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => VendorProductsScreen(vendorId: vendorId),
+              ),
+            ),
+          ),
+          ListTile(
+            title: const Text("Manage Services"),
+            trailing: const Icon(Icons.build),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => VendorServicesScreen(vendorId: vendorId),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
