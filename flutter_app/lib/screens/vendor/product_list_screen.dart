@@ -7,7 +7,7 @@ import '../../widgets/product_card.dart';
 class ProductListScreen extends ConsumerStatefulWidget {
   static const route = '/products';
   final String vendorId;
-  const ProductListScreen({super.key, required this.vendorId});
+  const ProductListScreen({super.key, required this.vendorId, required bool isAdd});
 
   @override
   ConsumerState<ProductListScreen> createState() => _ProductListScreenState();

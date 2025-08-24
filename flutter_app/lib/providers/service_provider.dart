@@ -37,6 +37,8 @@ class ServiceNotifier extends StateNotifier<List<Service>> {
   Future<void> deleteService(String serviceId, String vendorId) async {
     state = state.where((s) => s.id != serviceId).toList();
   }
+
+  void load(String vendorId) {}
 }
 
 final serviceProvider =

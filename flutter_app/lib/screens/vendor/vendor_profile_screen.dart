@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'vendor_login_screen.dart';
 
 class VendorProfileScreen extends StatelessWidget {
-  const VendorProfileScreen({super.key});
+  final dynamic vendorId;
+  const VendorProfileScreen({super.key, required this.vendorId});
+
 
   void _logout(BuildContext context) {
     Navigator.pushAndRemoveUntil(

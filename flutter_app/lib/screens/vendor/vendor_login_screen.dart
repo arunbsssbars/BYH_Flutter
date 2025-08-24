@@ -34,13 +34,13 @@ class _VendorLoginScreenState extends ConsumerState<VendorLoginScreen> {
     final password = _passwordController.text.trim();
 
     final vendors = ref.read(vendorProvider).vendors;
-    final vendor = vendors.firstWhereOrNull((v) => v.name == username);
+    final vendor = vendors.firstWhere((v) => v.name == username,);
 
-    if (vendor != null && password == "123") {
+    if (vendor.id != "" && password == "123") {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const VendorHome()),
+        MaterialPageRoute(builder: (_) => VendorHome(vendorId: vendor.id,)),
       );
     } else {
       setState(() {

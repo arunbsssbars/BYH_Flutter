@@ -6,7 +6,7 @@ import '../../widgets/service_card.dart';
 
 class ServiceListScreen extends ConsumerWidget {
   final String vendorId;
-  const ServiceListScreen({super.key, required this.vendorId});
+  const ServiceListScreen({super.key, required this.vendorId, required bool isAdd});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

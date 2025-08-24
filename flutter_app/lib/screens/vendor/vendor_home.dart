@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'vendor_products_services.dart';
+import 'package:one_stop_house_builder/screens/vendor/vendor_products_services.dart' show VendorProductsServices;
 import 'vendor_profile_screen.dart';
 
 class VendorHome extends StatefulWidget {
-  const VendorHome({super.key});
+  final dynamic vendorId;
+
+  const VendorHome({super.key, required this.vendorId});
 
   @override
   State<VendorHome> createState() => _VendorHomeState();
@@ -12,10 +14,16 @@ class VendorHome extends StatefulWidget {
 class _VendorHomeState extends State<VendorHome> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    const VendorProductsServices(),
-    const VendorProfileScreen(),
-  ];
+  late final List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      VendorProductsServices(vendorId: widget.vendorId),
+      VendorProfileScreen(vendorId: widget.vendorId),
+    ];
+  }
 
   void _onTabTapped(int index) {
     setState(() => _selectedIndex = index);
