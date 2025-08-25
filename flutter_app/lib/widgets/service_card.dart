@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:one_stop_house_builder/screens/service_form_screen.dart';
 import '../models/service.dart';
 import '../providers/service_provider.dart';
-import '../screens/vendor/service_form_screen.dart';
 
 class ServiceCard extends ConsumerWidget {
   final Service service;

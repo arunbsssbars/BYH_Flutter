@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:one_stop_house_builder/screens/service_form_screen.dart';
 import '../../providers/service_provider.dart';
-import 'service_form_screen.dart';
 import '../../widgets/service_card.dart';
 
 class ServiceListScreen extends ConsumerWidget {
@@ -23,8 +23,7 @@ class ServiceListScreen extends ConsumerWidget {
                 return ServiceCard(service: vendorServices[index]);
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,
@@ -33,6 +32,8 @@ class ServiceListScreen extends ConsumerWidget {
             ),
           );
         },
+        icon: const Icon(Icons.add),
+        label: const Text('Add Service'),
       ),
     );
   }

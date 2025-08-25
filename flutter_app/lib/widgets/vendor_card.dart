@@ -12,7 +12,8 @@ class VendorCard extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: verified ? Colors.green.shade100 : Colors.grey.shade200,
+          backgroundColor:
+              verified ? Colors.green.shade100 : Colors.grey.shade200,
           /* backgroundImage: NetworkImage(vendor.logoUrl), */
           child: Icon(
             verified ? Icons.verified : Icons.storefront,
@@ -35,7 +36,8 @@ class VendorCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 const Icon(Icons.email, size: 14),
                 const SizedBox(width: 4),
-                Expanded(child: Text(vendor.email, overflow: TextOverflow.ellipsis)),
+                Expanded(
+                    child: Text(vendor.email, overflow: TextOverflow.ellipsis)),
               ],
             ),
           ],
@@ -47,12 +49,15 @@ class VendorCard extends StatelessWidget {
             Text(vendor.rating.toStringAsFixed(1)),
           ],
         ),
-       isThreeLine: true,
+        isThreeLine: true,
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => ProductListScreen(vendorId: vendor.id),
+              builder: (_) => ProductListScreen(
+                vendorId: vendor.id,
+                isAdd: null,
+              ),
             ),
           );
         },

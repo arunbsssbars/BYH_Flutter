@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'vendor_products_screen.dart';
-import 'vendor_services_screen.dart';
 
 class VendorDashboard extends StatelessWidget {
   final String vendorId;

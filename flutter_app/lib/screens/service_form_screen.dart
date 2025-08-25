@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../models/service.dart';
-import '../../providers/service_provider.dart';
+import '../models/service.dart';
+import '../providers/service_provider.dart';
 
 class ServiceFormScreen extends ConsumerStatefulWidget {
   final String vendorId;
