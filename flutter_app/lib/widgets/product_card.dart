@@ -13,11 +13,10 @@ class ProductCard extends ConsumerWidget {
     return Card(
       child: ListTile(
         leading: SizedBox(
-          width: 48,
-          height: 48,
           child: (product.imageUrl.isNotEmpty)
               ? Image.network(
                   product.imageUrl,
+                   width: 48, height: 48,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 48),
                 )

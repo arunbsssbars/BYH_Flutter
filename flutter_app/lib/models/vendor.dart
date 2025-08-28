@@ -32,6 +32,8 @@ class Vendor {
     );
   }
 
+  get vendorId => null;
+
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,

@@ -7,7 +7,8 @@ import '../../widgets/product_card.dart';
 class ProductListScreen extends ConsumerStatefulWidget {
   static const route = '/products';
   final String vendorId;
-  const ProductListScreen({super.key, required this.vendorId, required bool isAdd});
+  const ProductListScreen(
+      {super.key, required this.vendorId, required bool isAdd});
 
   @override
   ConsumerState<ProductListScreen> createState() => _ProductListScreenState();
@@ -17,7 +18,8 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(productProvider.notifier).load(widget.vendorId));
+    Future.microtask(
+        () => ref.read(productProvider.notifier).load(widget.vendorId));
   }
 
   @override
@@ -25,17 +27,18 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
     final state = ref.watch(productProvider);
 
     return Scaffold(
-      appBar: AppBar(
+     /*  appBar: AppBar(
         title: const Text('My Products'),
-      ),
+      ), */
       body: RefreshIndicator(
-        onRefresh: () => ref.read(productProvider.notifier).load(widget.vendorId),
+        onRefresh: () =>
+            ref.read(productProvider.notifier).load(widget.vendorId),
         child: state.products.isEmpty && !state.loading
             ? const Center(child: Text('No products yet. Add one.'))
             : ListView.separated(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(6),
                 itemBuilder: (_, i) => ProductCard(product: state.products[i]),
-                separatorBuilder: (_, __) => const SizedBox(height: 8),
+                separatorBuilder: (_, __) => const SizedBox(height: 4),
                 itemCount: state.products.length,
               ),
       ),

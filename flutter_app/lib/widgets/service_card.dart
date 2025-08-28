@@ -13,6 +13,7 @@ class ServiceCard extends ConsumerWidget {
     return Card(
       child: ListTile(
         leading: Image.network(service.imageUrl, width: 48, height: 48, fit: BoxFit.cover),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         title: Text(service.name),
         subtitle: Text('${service.price} ₹ / ${service.unit}\n${service.category}'),
         isThreeLine: true,

@@ -34,13 +34,24 @@ class _VendorLoginScreenState extends ConsumerState<VendorLoginScreen> {
     final password = _passwordController.text.trim();
 
     final vendors = ref.read(vendorProvider).vendors;
-    final vendor = vendors.firstWhere((v) => v.name == username,);
-
-    if (vendor.id != "" && password == "123") {
+    final vendor = vendors.firstWhereOrNull(
+      (v) => v.name == username,
+    );
+    if (vendor == null) {
+      setState(() {
+        _errorMessage = "User not found";
+        _isLoading = false;
+      });
+      return;
+    }
+    if (vendor.id !="" && password == "123") {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => VendorHome(vendorId: vendor.id,)),
+        MaterialPageRoute(
+            builder: (_) => VendorHome(
+                  vendorId: vendor.id,
+                )),
       );
     } else {
       setState(() {
@@ -57,7 +68,7 @@ class _VendorLoginScreenState extends ConsumerState<VendorLoginScreen> {
     );
     if (newUserid != null) {
       setState(() {
-        _usernameController.text = newUserid;
+        // _usernameController.text = newUserid;
         _passwordController.text = "123";
         _errorMessage = "Registered successfully! Please login.";
       });
@@ -178,4 +189,3 @@ extension IterableExtension<E> on Iterable<E> {
     return null;
   }
 }
-

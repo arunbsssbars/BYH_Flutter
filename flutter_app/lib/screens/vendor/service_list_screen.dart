@@ -14,15 +14,20 @@ class ServiceListScreen extends ConsumerWidget {
     final vendorServices = services.where((s) => s.vendorId == vendorId).toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('My Services')),
-      body: vendorServices.isEmpty
-          ? const Center(child: Text('No services yet'))
-          : ListView.builder(
-              itemCount: vendorServices.length,
-              itemBuilder: (context, index) {
-                return ServiceCard(service: vendorServices[index]);
-              },
-            ),
+      /* appBar: AppBar(title: const Text('My Services')), */
+      body: RefreshIndicator(
+        onRefresh: () async => ref.read(serviceProvider.notifier).load(vendorId),
+        child: vendorServices.isEmpty
+            ? const Center(child: Text('No services yet'))
+            : ListView.separated(
+                itemCount: vendorServices.length,
+                padding: const EdgeInsets.all(6),
+                separatorBuilder: (_, __) => const SizedBox(height: 4),
+                itemBuilder: (context, index) {
+                  return ServiceCard(service: vendorServices[index]);
+                },
+              ),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(

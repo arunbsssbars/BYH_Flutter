@@ -19,4 +19,9 @@ class LocalStore {
     final sp = await SharedPreferences.getInstance();
     await sp.setString(_vendorsKey, jsonEncode(list));
   }
+
+  Future<void> clearVendors() async {
+   /*  final sp = await SharedPreferences.getInstance();
+    await sp.remove(_vendorsKey); */
+  }
 }

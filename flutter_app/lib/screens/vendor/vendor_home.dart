@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_stop_house_builder/screens/vendor/vendor_products_services.dart' show VendorProductsServices;
+import 'package:one_stop_house_builder/screens/vendor/vendor_products_services.dart';
 import 'vendor_profile_screen.dart';
 
 class VendorHome extends StatefulWidget {

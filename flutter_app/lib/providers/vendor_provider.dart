@@ -18,6 +18,8 @@ class VendorState {
     this.error,
   });
 
+  get data => null;
+
   VendorState copyWith({
     List<Vendor>? vendors,
     bool? loading,
@@ -73,6 +75,10 @@ class VendorNotifier extends StateNotifier<VendorState> {
       state = state.copyWith(loading: false, error: e.toString());
       return false;
     }
+  }
+
+  void logout() {
+    
   }
 }
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:one_stop_house_builder/providers/vendor_provider.dart';
+import 'package:one_stop_house_builder/screens/vendor/vendor_settings_screen.dart';
 import 'vendor_login_screen.dart';
 
-class VendorProfileScreen extends StatelessWidget {
-  final dynamic vendorId;
+class VendorProfileScreen extends ConsumerWidget {
+  final String vendorId;
   const VendorProfileScreen({super.key, required this.vendorId});
-
 
   void _logout(BuildContext context) {
     Navigator.pushAndRemoveUntil(
@@ -15,7 +17,19 @@ class VendorProfileScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(vendorProvider);
+
+    if (state.loading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final vendor = state.vendors.firstWhere(
+      (v) => v.id == vendorId,
+    );
+
     return Scaffold(
       appBar: AppBar(title: const Text("My Profile")),
       body: ListView(
@@ -27,13 +41,18 @@ class VendorProfileScreen extends StatelessWidget {
             child: Icon(Icons.person, size: 60, color: Colors.white),
           ),
           const SizedBox(height: 16),
-          const Text("Vendor Name: Ramesh Kumar", style: TextStyle(fontSize: 18)),
-          const Text("Category: Construction Material"),
+          Text("Vendor Name: ${vendor.name.slice(0, 1).toUpperCase()}${vendor.name.substring(1)}", style: const TextStyle(fontSize: 18)),
+          Text("Category: ${vendor.category}"),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text("Settings"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => VendorSettingsScreen(vendorId: vendor.id,)),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout),
@@ -43,5 +62,11 @@ class VendorProfileScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+extension on String {
+  slice(int i, int j) {
+    return substring(i, j);
   }
 }

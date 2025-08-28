@@ -4,7 +4,7 @@ import '../models/vendor.dart';
 
 class VendorCard extends StatelessWidget {
   final Vendor vendor;
-  const VendorCard({super.key, required this.vendor});
+  const VendorCard({super.key, required this.vendor, required vendorId});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class VendorCard extends StatelessWidget {
             MaterialPageRoute(
               builder: (_) => ProductListScreen(
                 vendorId: vendor.id,
-                isAdd: null,
+                isAdd: false,
               ),
             ),
           );
