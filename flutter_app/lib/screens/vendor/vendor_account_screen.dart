@@ -4,9 +4,9 @@ import 'package:one_stop_house_builder/providers/vendor_provider.dart';
 import 'package:one_stop_house_builder/screens/vendor/vendor_settings_screen.dart';
 import 'vendor_login_screen.dart';
 
-class VendorProfileScreen extends ConsumerWidget {
+class VendorAccountScreen extends ConsumerWidget {
   final String vendorId;
-  const VendorProfileScreen({super.key, required this.vendorId});
+  const VendorAccountScreen({super.key, required this.vendorId});
 
   void _logout(BuildContext context) {
     Navigator.pushAndRemoveUntil(
@@ -31,18 +31,20 @@ class VendorProfileScreen extends ConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text("My Profile")),
+      appBar: AppBar(title: const Text("My Account")),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           const CircleAvatar(
             radius: 50,
-            backgroundColor: Colors.blue,
+            backgroundColor: Color.fromARGB(255, 143, 186, 222),
             child: Icon(Icons.person, size: 60, color: Colors.white),
           ),
           const SizedBox(height: 16),
-          Text("Vendor Name: ${vendor.name.slice(0, 1).toUpperCase()}${vendor.name.substring(1)}", style: const TextStyle(fontSize: 18)),
-          Text("Category: ${vendor.category}"),
+          Center(
+            child: Text("Hello, ${vendor.name.slice(0, 1).toUpperCase()}${vendor.name.substring(1)}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          ),
+          // Text("Category: ${vendor.category}"),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.settings),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_stop_house_builder/screens/vendor/vendor_products_services.dart';
-import 'vendor_profile_screen.dart';
+import 'vendor_account_screen.dart';
 
 class VendorHome extends StatefulWidget {
   final dynamic vendorId;
@@ -21,7 +21,7 @@ class _VendorHomeState extends State<VendorHome> {
     super.initState();
     _screens = [
       VendorProductsServices(vendorId: widget.vendorId),
-      VendorProfileScreen(vendorId: widget.vendorId),
+      VendorAccountScreen(vendorId: widget.vendorId),
     ];
   }
 

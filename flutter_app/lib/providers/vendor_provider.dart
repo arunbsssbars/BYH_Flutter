@@ -80,6 +80,22 @@ class VendorNotifier extends StateNotifier<VendorState> {
   void logout() {
     
   }
+  
+  Future<void> updateVendor(Vendor vendor) async {
+    try {
+      state = state.copyWith(loading: true, error: null);
+      final updatedVendor = await _repo.updateVendor(vendor);
+      final updatedVendors = state.vendors.map((v) {
+        if (v.id == updatedVendor.id) {
+          return updatedVendor;
+        }
+        return v;
+      }).toList().cast<Vendor>();
+      state = state.copyWith(vendors: updatedVendors, loading: false);
+    } catch (e) {
+      state = state.copyWith(loading: false, error: e.toString());
+    }
+  }
 }
 
 final vendorProvider =

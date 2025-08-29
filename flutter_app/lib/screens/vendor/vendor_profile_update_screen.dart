@@ -1,27 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:one_stop_house_builder/models/vendor.dart';
+import 'package:one_stop_house_builder/providers/vendor_provider.dart'; // adjust import as needed
 
-class VendorProfileUpdateScreen extends StatefulWidget {
+class VendorProfileUpdateScreen extends ConsumerStatefulWidget {
   final String vendorId;
   const VendorProfileUpdateScreen({super.key, required this.vendorId});
 
   @override
-  VendorProfileUpdateScreenState createState() => VendorProfileUpdateScreenState();
+  ConsumerState<VendorProfileUpdateScreen> createState() => _VendorProfileUpdateScreenState();
 }
 
-class VendorProfileUpdateScreenState extends State<VendorProfileUpdateScreen> {
+class _VendorProfileUpdateScreenState extends ConsumerState<VendorProfileUpdateScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
+  late TextEditingController _categoryController;
+  late TextEditingController _addressController;
+
+  Vendor? _vendor;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    // TODO: Replace with actual vendor data loading logic
-    // For example, fetch vendor data from API using widget.vendorId
-    _nameController = TextEditingController(text: 'Vendor Name');
-    _emailController = TextEditingController(text: 'vendor@email.com');
-    _phoneController = TextEditingController(text: '1234567890');
+    _fetchVendor();
+  }
+
+  void _fetchVendor() {
+    final state = ref.read(vendorProvider);
+    final vendor = state.vendors.firstWhere(
+      (v) => v.id == widget.vendorId,
+      orElse: () => const Vendor(
+        id: '',
+        name: '',
+        email: '',
+        phone: '',
+        category: '',
+        address: '',
+        isVerified: false,
+        rating: 0.0,
+      ),
+    );
+    setState(() {
+      _vendor = vendor.id.isEmpty ? null : vendor;
+      _isLoading = false;
+      _nameController = TextEditingController(text: vendor.name);
+      _emailController = TextEditingController(text: vendor.email);
+      _phoneController = TextEditingController(text: vendor.phone);
+      _categoryController = TextEditingController(text: vendor.category);
+      _addressController = TextEditingController(text: vendor.address);
+    });
   }
 
   @override
@@ -29,11 +59,42 @@ class VendorProfileUpdateScreenState extends State<VendorProfileUpdateScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
+    _categoryController.dispose();
+    _addressController.dispose();
     super.dispose();
+  }
+
+  void _updateProfile() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final updatedVendor = _vendor!.copyWith(
+        name: _nameController.text,
+        email: _emailController.text,
+        phone: _phoneController.text,
+        category: _categoryController.text,
+        address: _addressController.text,
+      );
+      await ref.read(vendorProvider.notifier).updateVendor(updatedVendor);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile updated')),
+        );
+        Navigator.pop(context);
+      } else {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update profile')),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Vendor Profile'),
@@ -61,17 +122,21 @@ class VendorProfileUpdateScreenState extends State<VendorProfileUpdateScreen> {
                 decoration: const InputDecoration(labelText: 'Phone'),
                 validator: (value) => value == null || value.isEmpty ? 'Please enter your phone number' : null,
               ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _categoryController,
+                decoration: const InputDecoration(labelText: 'Category'),
+                validator: (value) => value == null || value.isEmpty ? 'Please enter your category' : null,
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _addressController,
+                decoration: const InputDecoration(labelText: 'Address'),
+                validator: (value) => value == null || value.isEmpty ? 'Please enter your address' : null,
+              ),
               const SizedBox(height: 32),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    // Use controller.text to get updated values
-                    // TODO: Update vendor profile logic here
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Profile updated')),
-                    );
-                  }
-                },
+                onPressed: _updateProfile,
                 child: const Text('Update Profile'),
               ),
             ],
@@ -81,3 +146,4 @@ class VendorProfileUpdateScreenState extends State<VendorProfileUpdateScreen> {
     );
   }
 }
+

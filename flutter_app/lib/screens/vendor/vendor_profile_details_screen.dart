@@ -7,6 +7,15 @@ class VendorProfileDetailsScreen extends ConsumerWidget {
   final String vendorId;
   const VendorProfileDetailsScreen({super.key, required this.vendorId});
 
+  void _editProfile(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => VendorProfileUpdateScreen(vendorId: vendorId),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(vendorProvider);
@@ -27,15 +36,7 @@ class VendorProfileDetailsScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () {
-              // Navigate to edit screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => VendorProfileUpdateScreen(vendorId: vendorId),
-                ),
-              );
-            },
+            onPressed: () => _editProfile(context),
           ),
         ],
       ),
@@ -46,20 +47,26 @@ class VendorProfileDetailsScreen extends ConsumerWidget {
             children: [
               const SizedBox(height: 24),
               Text(
-                vendor.name.slice(0, 1).toUpperCase() + vendor.name.substring(1),
+                vendor.name.slice(0, 1).toUpperCase() +
+                    vendor.name.substring(1),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 8),
               Text(
                 vendor.category, // Show category
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    vendor.isVerified ? Icons.verified : Icons.verified_outlined,
+                    vendor.isVerified
+                        ? Icons.verified
+                        : Icons.verified_outlined,
                     color: vendor.isVerified ? Colors.green : Colors.grey,
                   ),
                   const SizedBox(width: 8),
@@ -87,7 +94,8 @@ class VendorProfileDetailsScreen extends ConsumerWidget {
               const SizedBox(height: 24),
               Card(
                 elevation: 2,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -117,18 +125,11 @@ class VendorProfileDetailsScreen extends ConsumerWidget {
               ElevatedButton.icon(
                 icon: const Icon(Icons.edit),
                 label: const Text('Update Profile'),
-                onPressed: () {
-                  // Edit functionality placeholder
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => VendorProfileUpdateScreen(vendorId: vendorId),
-                    ),
-                  );
-                },
+                onPressed: () => _editProfile(context),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(48),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
                 ),
               ),
             ],

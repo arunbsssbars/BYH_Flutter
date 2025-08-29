@@ -1,3 +1,4 @@
+
 import 'dart:async';
 import '../core/storage/local_store.dart';
 import '../models/vendor.dart';
@@ -5,6 +6,7 @@ import '../models/vendor.dart';
 abstract class VendorRepository {
   Future<List<Vendor>> fetchVendors();
   Future<Vendor> createVendor(Vendor vendor);
+  Future<Vendor> updateVendor(Vendor vendor);
 }
 
 class LocalVendorRepository implements VendorRepository {
@@ -24,6 +26,17 @@ class LocalVendorRepository implements VendorRepository {
     final list = await _store.getVendors();
     final vendors = list.map(Vendor.fromJson).toList();
     vendors.add(vendor);
+    await _store.saveVendors(vendors.map((e) => e.toJson()).toList());
+    return vendor;
+  }
+
+  @override
+  Future<Vendor> updateVendor(Vendor vendor) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    final list = await _store.getVendors();
+    final vendors = list.map(Vendor.fromJson).toList();
+    final idx = vendors.indexWhere((e) => e.id == vendor.id);
+    if (idx != -1) vendors[idx] = vendor;
     await _store.saveVendors(vendors.map((e) => e.toJson()).toList());
     return vendor;
   }
